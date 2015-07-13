@@ -18,8 +18,8 @@ var _ = require("lodash");
     }
 
     // Check if they are the same type.
-    var firstType = toString.call(first);
-    if (firstType !== toString.call(second)) {
+    var firstType = _.toString(first);// toString.call(first);
+    if (firstType !== _.toString(second)){// toString.call(second)) {
       return false;
     }
     // We know that first and second have the same type so we can just check the
@@ -1270,7 +1270,8 @@ var _ = require("lodash");
         }
     },
     getTypeName: function(obj) {
-        switch (toString.call(obj)) {
+        //switch (toString.call(obj)) {
+        switch (_.toString(obj)) {
             case "[object String]":
               return "string";
             case "[object Number]":
