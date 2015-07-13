@@ -1,20 +1,14 @@
+var _ = require("lodash");
+
 (function(exports) {
   "use strict";
 
   function isArray(obj) {
-    if (obj !== null) {
-      return toString.call(obj) === "[object Array]";
-    } else {
-      return false;
-    }
+    return _.isArray(obj);
   }
 
   function isObject(obj) {
-    if (obj !== null) {
-      return toString.call(obj) === "[object Object]";
-    } else {
-      return false;
-    }
+    return _.isObject(obj);
   }
 
   function strictDeepEqual(first, second) {
