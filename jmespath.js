@@ -93,7 +93,7 @@ var _ = require("lodash");
   }
 
   function objValues(obj) {
-    var keys = Object.keys(obj);
+    var keys = _.keys(obj);
     var values = [];
     for (var i = 0; i < keys.length; i++) {
       values.push(obj[keys[i]]);
@@ -1350,7 +1350,7 @@ var _ = require("lodash");
        } else {
          // As far as I can tell, there's no way to get the length
          // of an object without O(n) iteration through the object.
-         return Object.keys(resolvedArgs[0]).length;
+         return _.keys(resolvedArgs[0]).length;
        }
     },
 
@@ -1419,12 +1419,12 @@ var _ = require("lodash");
     },
 
     functionKeys: function(resolvedArgs) {
-        return Object.keys(resolvedArgs[0]);
+        return _.keys(resolvedArgs[0]);
     },
 
     functionValues: function(resolvedArgs) {
         var obj = resolvedArgs[0];
-        var keys = Object.keys(obj);
+        var keys = _.keys(obj);
         var values = [];
         for (var i = 0; i < keys.length; i++) {
             values.push(obj[keys[i]]);
