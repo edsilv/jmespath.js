@@ -374,11 +374,11 @@ var _ = require("lodash");
 
           if (literalString === "") {
               return false;
-          } else if (startingChars.indexOf(literalString[0]) >= 0) {
+          } else if (_.indexOf(startingChars, literalString[0]) >= 0) {
               return true;
-          } else if (jsonLiterals.indexOf(literalString) >= 0) {
+          } else if (_.indexOf(jsonLiterals, literalString) >= 0) {
               return true;
-          } else if (numberLooking.indexOf(literalString[0]) >= 0) {
+          } else if (_.indexOf(numberLooking, literalString[0]) >= 0) {
               try {
                   JSON.parse(literalString);
                   return true;
@@ -727,7 +727,7 @@ var _ = require("lodash");
       parseDotRHS: function(rbp) {
           var lookahead = this.lookahead(0);
           var exprTokens = ["UnquotedIdentifier", "QuotedIdentifier", "Star"];
-          if (exprTokens.indexOf(lookahead) >= 0) {
+          if (_.indexOf(exprTokens, lookahead) >= 0) {
               return this.expression(rbp);
           } else if (lookahead === "Lbracket") {
               this.match("Lbracket");
@@ -781,7 +781,7 @@ var _ = require("lodash");
         var keyToken, keyName, value, node;
         for (;;) {
           keyToken = this.lookaheadToken(0);
-          if (identifierTypes.indexOf(keyToken.type) < 0) {
+          if (_.indexOf(identifierTypes, keyToken.type) < 0) {
             throw new Error("Expecting an identifier token, got: " +
                             keyToken.type);
           }
@@ -1237,14 +1237,14 @@ var _ = require("lodash");
         if (expected === "any") {
             return true;
         }
-        if (expected.indexOf("array") === 0) {
+        if (_.indexOf(expected, "array") === 0) {
             // The expected type can either just be array,
             // or it can require a specific subtype (array of numbers).
             //
             // The simplest case is if "array" with no subtype is specified.
             if (expected === "array") {
-                return actual.indexOf("array") === 0;
-            } else if (actual.indexOf("array") === 0) {
+                return _.indexOf(actual, "array") === 0;
+            } else if (_.indexOf(actual, "array") === 0) {
                 // Otherwise we need to check subtypes.
                 // I think this has potential to be improved.
                 var subtype = expected.split("-")[1];
@@ -1286,13 +1286,13 @@ var _ = require("lodash");
     },
 
     functionStartsWith: function(resolvedArgs) {
-        return resolvedArgs[0].lastIndexOf(resolvedArgs[1]) === 0;
+        return _.lastIndexOf(resolvedArgs[0], resolvedArgs[1]) === 0;
     },
 
     functionEndsWith: function(resolvedArgs) {
         var searchStr = resolvedArgs[0];
         var suffix = resolvedArgs[1];
-        return searchStr.indexOf(suffix, searchStr.length - suffix.length) !== -1;
+        return _.indexOf(suffix, searchStr.length - suffix.length) !== -1;
     },
 
     functionReverse: function(resolvedArgs) {
@@ -1329,7 +1329,7 @@ var _ = require("lodash");
     },
 
     functionContains: function(resolvedArgs) {
-        return resolvedArgs[0].indexOf(resolvedArgs[1]) >= 0;
+        return _.indexOf(resolvedArgs[0], resolvedArgs[1]) >= 0;
     },
 
     functionFloor: function(resolvedArgs) {
@@ -1484,7 +1484,7 @@ var _ = require("lodash");
         var exprefNode = resolvedArgs[1];
         var requiredType = this.getTypeName(
             interpreter.visit(exprefNode, sortedArray[0]));
-        if (["number", "string"].indexOf(requiredType) < 0) {
+        if (_.indexOf(["number", "string"], requiredType) < 0) {
             throw new Error("TypeError");
         }
         var that = this;
@@ -1568,7 +1568,7 @@ var _ = require("lodash");
       var interpreter = this.interpreter;
       var keyFunc = function(x) {
         var current = interpreter.visit(exprefNode, x);
-        if (allowedTypes.indexOf(that.getTypeName(current)) < 0) {
+        if (_.indexOf(allowedTypes, that.getTypeName(current)) < 0) {
           var msg = "TypeError: expected one of " + allowedTypes +
                     ", received " + that.getTypeName(current);
           throw new Error(msg);
