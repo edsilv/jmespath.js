@@ -3,14 +3,6 @@ var _ = require("lodash");
 (function(exports) {
   "use strict";
 
-  function isArray(obj) {
-    return _.isArray(obj);
-  }
-
-  function isObject(obj) {
-    return _.isObject(obj);
-  }
-
   function strictDeepEqual(first, second) {
     // Check the scalar case first.
     if (first === second) {
@@ -24,7 +16,7 @@ var _ = require("lodash");
     }
     // We know that first and second have the same type so we can just check the
     // first type from now on.
-    if (isArray(first) === true) {
+    if (_.isArray(first) === true) {
       // Short circuit if they're not the same length;
       if (first.length !== second.length) {
         return false;
@@ -36,7 +28,7 @@ var _ = require("lodash");
       }
       return true;
     }
-    if (isObject(first) === true) {
+    if (_.isObject(first) === true) {
       // An object is equal if it has the same key/value pairs.
       var keysSeen = {};
       for (var key in first) {
@@ -73,10 +65,10 @@ var _ = require("lodash");
     // First check the scalar values.
     if (obj === "" || obj === false || obj === null) {
         return true;
-    } else if (isArray(obj) && obj.length === 0) {
+    } else if (_.isArray(obj) && obj.length === 0) {
         // Check for an empty array.
         return true;
-    } else if (isObject(obj)) {
+    } else if (_.isObject(obj)) {
         // Check for an empty object.
         for (var key in obj) {
             // If there are any keys, then
@@ -831,7 +823,7 @@ var _ = require("lodash");
       visitField: function(node, value) {
           if (value === null ) {
               return null;
-          } else if (isObject(value)) {
+          } else if (_.isObject(value)) {
               var field = value[node.name];
               if (field === undefined) {
                   return null;
@@ -861,7 +853,7 @@ var _ = require("lodash");
       },
 
       visitIndex: function(node, value) {
-        if (!isArray(value)) {
+        if (!_.isArray(value)) {
           return null;
         }
         var index = node.value;
@@ -876,7 +868,7 @@ var _ = require("lodash");
       },
 
       visitSlice: function(node, value) {
-        if (!isArray(value)) {
+        if (!_.isArray(value)) {
           return null;
         }
         var sliceParams = node.children.slice(0);
@@ -944,7 +936,7 @@ var _ = require("lodash");
       visitProjection: function(node, value) {
         // Evaluate left child.
         var base = this.visit(node.children[0], value);
-        if (!isArray(base)) {
+        if (!_.isArray(base)) {
           return null;
         }
         var collected = [];
@@ -960,7 +952,7 @@ var _ = require("lodash");
       visitValueProjection: function(node, value) {
         // Evaluate left child.
         var base = this.visit(node.children[0], value);
-        if (!isObject(base)) {
+        if (!_.isObject(base)) {
           return null;
         }
         var collected = [];
@@ -976,7 +968,7 @@ var _ = require("lodash");
 
       visitFilterProjection: function(node, value) {
         var base = this.visit(node.children[0], value);
-        if (!isArray(base)) {
+        if (!_.isArray(base)) {
           return null;
         }
         var filtered = [];
@@ -1028,13 +1020,13 @@ var _ = require("lodash");
 
       visitFlatten: function(node, value) {
         var original = this.visit(node.children[0], value);
-        if (!isArray(original)) {
+        if (!_.isArray(original)) {
           return null;
         }
         var merged = [];
         for (var i = 0; i < original.length; i++) {
           var current = original[i];
-          if (isArray(current)) {
+          if (_.isArray(current)) {
             merged.push.apply(merged, current);
           } else {
             merged.push(current);
@@ -1345,7 +1337,7 @@ var _ = require("lodash");
     },
 
     functionLength: function(resolvedArgs) {
-       if (!isObject(resolvedArgs[0])) {
+       if (!_.isObject(resolvedArgs[0])) {
          return resolvedArgs[0].length;
        } else {
          // As far as I can tell, there's no way to get the length
