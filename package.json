@@ -28,7 +28,13 @@
     "yargs": "^3.15.0"
   },
   "dependencies": {
-    "gulp": "^3.9.0"
+    "gulp": "^3.9.0",
+    "lodash._basetostring": "^3.0.1",
+    "lodash.indexof": "^3.0.3",
+    "lodash.isarray": "^3.0.4",
+    "lodash.isobject": "^3.0.2",
+    "lodash.keys": "^3.1.2",
+    "lodash.lastindexof": "^3.0.2"
   },
   "main": "jmespath.js",
   "directories": {
